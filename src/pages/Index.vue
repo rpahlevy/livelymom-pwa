@@ -6,9 +6,9 @@
     <q-card v-for='item in items' class='q-mb-md' square bordered :key='item.id'>
       <q-card-section class=''>
         <div class='text-h6 q-mb-sm line-clamp-2'>
-          <a class='text-grey-8 hide-underline' href='/detail'>
+          <router-link to='/detail' class='text-grey-8 hide-underline'>
             {{ item.title }}
-          </a>
+          </router-link>
         </div>
 
         <p class='text-body2 text-blue-grey-8 q-mb-md line-clamp-3' v-html='substr(item.content_text)' />

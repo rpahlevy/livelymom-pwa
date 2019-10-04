@@ -24,7 +24,7 @@
 
 <script>
 export default {
-  name: 'PageIndex',
+  name: 'PostDetail',
 
   methods: {
     substr: function (str) {
@@ -38,7 +38,7 @@ export default {
   },
 
   mounted () {
-    console.log(this.$axios)
+    // console.log(this.$axios)
   }
 }
 </script>
