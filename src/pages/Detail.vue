@@ -1,38 +1,43 @@
 <template>
-  <q-page class='q-pa-md'>
-    <h1 class='text-h4 text-center q-mb-sm'>{{ article.title.rendered }}</h1>
-    <p v-html='article.content.rendered' />
+  <q-page class='q-pt-md'>
+    <div class='q-mb-lg q-px-lg'>
+      <router-link to="/">
+        <q-btn outline size='md' color='pink-5' class='q-mt-md'>
+          <q-icon name='arrow_left'></q-icon>
+          Kembali
+        </q-btn>
+      </router-link>
+      <h1 class='text-h4 text-grey-9 text-bold q-mb-sm' style='line-height: 1.25'>{{ article.title.rendered }}</h1>
+      <p class='text-subtitle1'>{{ article.date }}</p>
+    </div>
+    <q-card flat style='border-radius: 30px 30px 0 0'>
+      <q-card-section class='q-px-lg q-py-lg'>
+        <p v-html='article.content.rendered' class='q-mt-sm text-body1 post-content' />
+      </q-card-section>
+    </q-card>
   </q-page>
 </template>
-
-<style scope='file'>
-  .hide-underline {
-    text-decoration: none;
-  }
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-</style>
 
 <script>
 export default {
   name: 'PostDetail',
+
+  data () {
+    return {
+      article: {}
+    }
+  },
+
+  mounted () {
+    this.loadData()
+  },
 
   methods: {
     loadData: function () {
       this.$q.loading.show()
       this.$axios.get('/posts/' + this.$route.params.id)
         .then(response => {
-          console.log(response)
+          // console.log(response)
           if (response.status && response.status === 200) {
             this.article = response.data
           }
@@ -49,16 +54,6 @@ export default {
           this.$q.loading.hide()
         })
     }
-  },
-
-  data () {
-    return {
-      article: {}
-    }
-  },
-
-  mounted () {
-    this.loadData()
   }
 }
 </script>

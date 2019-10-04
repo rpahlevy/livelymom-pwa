@@ -1,1 +1,61 @@
 // app global css in SCSS form
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.text-h1,
+.text-h2,
+.text-h3,
+.text-h4,
+.text-h5,
+.text-h6 {
+  line-height: 1.35;
+}
+.hide-underline {
+  text-decoration: none;
+}
+.line-clamp {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  * {
+    overflow: hidden;
+  }
+}
+.line-clamp-2 {
+  -webkit-line-clamp: 2;
+}
+.line-clamp-3 {
+  -webkit-line-clamp: 3;
+}
+.post-excerpt * {
+  display: none;
+}
+.post-excerpt > p:first-child {
+  display: block;
+}
+.post-content {
+  h1,
+  .text-h1 {
+    font-size: 135%;
+  }
+  h2,
+  .text-h2 {
+    font-size: 125%;
+  }
+  .sharedaddy {
+    display: none;
+  }
+  :blank {
+    display: none;
+    margin: 0;
+  }
+}
+img {
+  max-width: 100%;
+  height: auto;
+}

@@ -1,19 +1,17 @@
 <template>
   <q-page class='q-pa-md'>
-    <h1 class='text-h4 text-center q-mb-sm'>Lively Mom</h1>
-    <p class='text-body1 text-center text-blue-grey-6 q-mb-lg'>
+    <h1 class='text-h4 text-center q-mb-sm text-pink-12 text-bold'>Lively Mom</h1>
+    <p class='text-body1 text-center text-blue-grey-10 q-mb-lg'>
       Cerita &amp; Tips Kehamilan, Melahirkan, Menyusui, dan Parenting
     </p>
 
-    <q-card v-for='article in articles' class='q-mb-md' flat :key='article.id'>
-      <q-card-section class=''>
-        <div class='text-h6 q-mb-sm line-clamp-2'>
-          <router-link :to='"/detail/"+ article.id' class='text-grey-8 hide-underline'>
-            {{ article.title.rendered }}
-          </router-link>
-        </div>
+    <q-card v-for='(article, index) in articles' class='q-mb-lg' flat :key='article.id' style='border-radius: 8px'>
+      <q-card-section class='q-pa-lg'>
+        <h1 class='text-h6 q-mt-none q-mb-md line-clamp line-clamp-2'>
+          <router-link :to='"/detail/"+ article.id' class='text-grey-9 hide-underline' v-html='article.title.rendered' />
+        </h1>
 
-        <p class='text-body2 text-blue-grey-8 q-mb-md line-clamp-3' v-html='substr(article.excerpt.rendered)' />
+        <div class='text-body2 text-blue-grey-8 q-mb-md line-clamp line-clamp-3 post-excerpt' v-html='article.excerpt.rendered' />
 
         <div class='row items-center justify-between'>
           <div class='text-subtitle2'>
@@ -21,7 +19,7 @@
             <span class='text-blue-grey-4'>{{ article.date }}</span>
           </div>
           <div>
-            <q-btn unelevated round size='sm' color='pink-5' icon='share'></q-btn>
+            <q-btn unelevated round size='sm' color='pink-5' icon='share' @click='share(index)'></q-btn>
           </div>
         </div>
       </q-card-section>
@@ -29,27 +27,20 @@
   </q-page>
 </template>
 
-<style scope='file'>
-  .hide-underline {
-    text-decoration: none;
-  }
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-</style>
-
 <script>
 export default {
   name: 'PageIndex',
+
+  data () {
+    return {
+      initial: true,
+      articles: []
+    }
+  },
+
+  mounted () {
+    this.loadData()
+  },
 
   methods: {
     substr: function (str) {
@@ -74,18 +65,31 @@ export default {
         .then(() => {
           this.$q.loading.hide()
         })
+    },
+    canShare: function () {
+      if (navigator.share) {
+        return true
+      }
+      return false
+    },
+    share: function (index) {
+      let article = this.articles[index]
+      if (navigator.share) {
+        navigator.share({
+          title: article.title.rendered,
+          text: article.title.rendered,
+          url: article.url
+        })
+          .then(() => {
+            // console.log('Successful share')
+          })
+          .catch((e) => {
+            // console.log('Error sharing', error)
+          })
+      } else {
+        window.open('https://api.whatsapp.com/send?text=' + article.title.rendered + '. \n' + article.link + '\n')
+      }
     }
-  },
-
-  data () {
-    return {
-      initial: true,
-      articles: []
-    }
-  },
-
-  mounted () {
-    this.loadData()
   }
 }
 </script>
