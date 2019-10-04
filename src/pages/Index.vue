@@ -78,7 +78,7 @@ export default {
         navigator.share({
           title: article.title.rendered,
           text: article.title.rendered,
-          url: article.url
+          url: article.link
         })
           .then(() => {
             // console.log('Successful share')
