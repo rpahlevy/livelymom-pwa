@@ -7,7 +7,7 @@
           Kembali
         </q-btn>
       </router-link>
-      <h1 class='text-h4 text-grey-9 text-bold q-mb-sm' style='line-height: 1.25'>{{ article.title.rendered }}</h1>
+      <h1 class='text-h4 text-grey-9 text-bold q-mb-sm' style='line-height: 1.25' v-html='article.title.rendered' />
       <p class='text-subtitle1'>{{ article.date }}</p>
     </div>
     <q-card flat style='border-radius: 30px 30px 0 0'>
