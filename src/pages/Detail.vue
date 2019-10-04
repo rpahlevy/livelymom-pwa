@@ -1,6 +1,7 @@
 <template>
   <q-page class='q-pa-md'>
-    <h1 class='text-h4 text-center q-mb-sm'>Detail</h1>
+    <h1 class='text-h4 text-center q-mb-sm'>{{ article.title.rendered }}</h1>
+    <p v-html='article.content.rendered' />
   </q-page>
 </template>
 
@@ -27,18 +28,37 @@ export default {
   name: 'PostDetail',
 
   methods: {
-    substr: function (str) {
-      return str.length > 120 ? str.substr(0, 117) + '...' : str
+    loadData: function () {
+      this.$q.loading.show()
+      this.$axios.get('/posts/' + this.$route.params.id)
+        .then(response => {
+          console.log(response)
+          if (response.status && response.status === 200) {
+            this.article = response.data
+          }
+        })
+        .catch(() => {
+          this.$q.notify({
+            color: 'negative',
+            position: 'bottom',
+            message: 'Loading failed',
+            icon: 'report_problem'
+          })
+        })
+        .then(() => {
+          this.$q.loading.hide()
+        })
     }
   },
 
   data () {
     return {
+      article: {}
     }
   },
 
   mounted () {
-    // console.log(this.$axios)
+    this.loadData()
   }
 }
 </script>
