@@ -8,7 +8,7 @@
     <q-card v-for='(article, index) in articles' class='q-mb-lg' flat :key='article.id' style='border-radius: 8px'>
       <q-card-section class='q-pa-lg'>
         <h1 class='text-h6 q-mt-none q-mb-md line-clamp line-clamp-2'>
-          <router-link :to='"/detail/"+ article.id' class='text-grey-9 hide-underline' v-html='article.title.rendered' />
+          <router-link :to='article.id + "/" + article.slug' class='text-grey-9 hide-underline' v-html='article.title.rendered' />
         </h1>
 
         <div class='text-body2 text-blue-grey-8 q-mb-md line-clamp line-clamp-3 post-excerpt' v-html='article.excerpt.rendered' />
@@ -38,7 +38,7 @@ export default {
     }
   },
 
-  mounted () {
+  beforeMount () {
     this.loadData()
   },
 
@@ -57,8 +57,8 @@ export default {
         .catch(() => {
           this.$q.notify({
             color: 'negative',
-            position: 'bottom',
-            message: 'Loading failed',
+            position: 'top',
+            message: 'Koneksi bermasalah',
             icon: 'report_problem'
           })
         })

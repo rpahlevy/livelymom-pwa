@@ -8,7 +8,7 @@
     </p>
     <p class="text-faded">Ups... Halaman tidak ditemukan</p>
     <q-btn
-      color="primary"
+      color="pink-5"
       style="padding:0 2rem;"
       to="/"
       label="Kembali"
