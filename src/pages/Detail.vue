@@ -40,6 +40,14 @@ export default {
     this.loadData()
   },
 
+  watch: {
+    $route (to, from) {
+      if (from.name === to.name) {
+        this.loadData()
+      }
+    }
+  },
+
   updated () {
     this.filterContentAnchors()
   },
@@ -49,7 +57,6 @@ export default {
       this.$q.loading.show()
       this.$axios.get('/posts/' + this.$route.params.id)
         .then(response => {
-          // console.log(response)
           if (response.status && response.status === 200) {
             this.article = response.data
           }
@@ -75,11 +82,9 @@ export default {
             e.preventDefault()
           }
 
-          var href = this.getAttribute('href').replace('https://livelymom.com', '')
-          // v.$q.loading.show()
-          // console.log(href)
-          v.$router.push({ path: href })
-          // v.$router.go()
+          var href = this.getAttribute('href').replace('https://livelymom.com/', '')
+          var params = href.split('/')
+          v.$router.push({ name: 'PostDetail', params: { id: params[0], slug: params[1] } })
         }
       }
     },
