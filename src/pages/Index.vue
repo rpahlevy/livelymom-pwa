@@ -8,7 +8,7 @@
     <q-card v-for='(article, index) in articles' class='q-mb-lg' flat :key='article.id' style='border-radius: 8px'>
       <q-card-section class='q-pa-lg'>
         <h1 class='text-h6 q-mt-none q-mb-md line-clamp line-clamp-2'>
-          <router-link :to='article.id + "/" + article.slug' class='text-grey-9 hide-underline' v-html='article.title.rendered' />
+          <router-link :to='article.id + "/" + article.slug' class='text-blue-grey-8 hide-underline' v-html='article.title.rendered' />
         </h1>
 
         <div class='text-body2 text-blue-grey-8 q-mb-md line-clamp line-clamp-3 post-excerpt' v-html='article.excerpt.rendered' />
@@ -16,7 +16,7 @@
         <div class='row items-center justify-between'>
           <div class='text-subtitle2'>
             <!-- <span class='text-pink-5'>{{ item.author.name }}</span> - -->
-            <span class='text-blue-grey-4'>{{ article.date }}</span>
+            <span class='text-blue-grey-4'>{{ formatDate(article.date, 'YYYY-MM-DD') }}</span>
           </div>
           <div>
             <q-btn unelevated round size='sm' color='pink-5' icon='share' @click='share(index)'></q-btn>
@@ -65,6 +65,21 @@ export default {
         .then(() => {
           this.$q.loading.hide()
         })
+    },
+    formatDate: function (value) {
+      var monthNames = [
+        'Januari', 'Februari', 'Maret',
+        'April', 'Mei', 'Juni', 'Juli',
+        'Agustus', 'September', 'Oktober',
+        'November', 'Desember'
+      ]
+
+      var date = new Date(value)
+      var day = date.getDate()
+      var monthIndex = date.getMonth()
+      var year = date.getFullYear()
+
+      return day + ' ' + monthNames[monthIndex] + ' ' + year
     },
     canShare: function () {
       if (navigator.share) {

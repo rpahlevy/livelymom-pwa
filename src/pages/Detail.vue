@@ -12,7 +12,7 @@
     </div>
     <q-card v-if='article.content.rendered' flat style='border-radius: 30px 30px 0 0'>
       <q-card-section class='q-px-lg q-py-lg'>
-        <div v-html='article.content.rendered' class='q-mt-sm text-body1 post-content' id='post-content' />
+        <div v-html='article.content.rendered' class='q-mt-sm text-body1 text-blue-grey-8 post-content' id='post-content' />
       </q-card-section>
     </q-card>
   </q-page>

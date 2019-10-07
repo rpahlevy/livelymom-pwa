@@ -98,15 +98,19 @@ module.exports = function (ctx) {
     // https://quasar.dev/quasar-cli/developing-pwa/configuring-pwa
     pwa: {
       // workboxPluginMode: 'InjectManifest',
-      // workboxOptions: {}, // only for NON InjectManifest
+      workboxOptions: {
+        skipWaiting: true,
+        clientsClaim: true
+      }, // only for NON InjectManifest
       manifest: {
-        // name: 'LivelyMom PWA',
-        // short_name: 'LivelyMom PWA',
-        // description: 'PWA for livelymom.com',
+        name: 'Lively Mom PWA',
+        short_name: 'LivelyMom',
+        description: 'PWA for livelymom.com',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
-        theme_color: '#027be3',
+        // theme_color: '#027be3',
+        theme_color: '#FF4081',
         icons: [
           {
             'src': 'statics/icons/icon-128x128.png',
