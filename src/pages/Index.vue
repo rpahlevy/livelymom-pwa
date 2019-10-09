@@ -48,21 +48,33 @@ export default {
     },
     loadData: function () {
       this.$q.loading.show()
-      this.$axios.get('/posts')
+      this.$api.get('/posts')
         .then(response => {
-          if (response.status && response.status === 200) {
-            this.articles = response.data
+          if (response.status === 200) {
+            return response.json()
+          } else {
+            this.$q.notify({
+              color: 'negative',
+              position: 'top',
+              message: 'Koneksi bermasalah',
+              icon: 'report_problem'
+            })
           }
+          return null
         })
-        .catch(() => {
+        .then(response => {
+          if (response) {
+            this.articles = response
+          }
+          this.$q.loading.hide()
+        })
+        .catch(e => {
           this.$q.notify({
             color: 'negative',
             position: 'top',
             message: 'Koneksi bermasalah',
             icon: 'report_problem'
           })
-        })
-        .then(() => {
           this.$q.loading.hide()
         })
     },

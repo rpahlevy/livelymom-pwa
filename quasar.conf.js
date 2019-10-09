@@ -7,7 +7,8 @@ module.exports = function (ctx) {
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/cli-documentation/boot-files
     boot: [
-      'axios'
+      'axios',
+      'wpapi'
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -83,7 +84,7 @@ module.exports = function (ctx) {
     devServer: {
       // https: true,
       // port: 8080,
-      open: true // opens browser window automatically
+      open: false // opens browser window automatically
     },
 
     // animations: 'all', // --- includes all animations
@@ -97,11 +98,11 @@ module.exports = function (ctx) {
 
     // https://quasar.dev/quasar-cli/developing-pwa/configuring-pwa
     pwa: {
-      // workboxPluginMode: 'InjectManifest',
-      workboxOptions: {
-        skipWaiting: true,
-        clientsClaim: true
-      }, // only for NON InjectManifest
+      workboxPluginMode: 'InjectManifest',
+      // workboxOptions: {
+      //   skipWaiting: true,
+      //   clientsClaim: true
+      // }, // only for NON InjectManifest
       manifest: {
         name: 'Lively Mom PWA',
         short_name: 'LivelyMom',
