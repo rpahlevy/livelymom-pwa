@@ -1,21 +1,74 @@
 <template>
-  <q-page class='q-pt-md'>
-    <div class='q-mb-lg q-px-lg'>
-      <router-link to='/'>
-        <q-btn outline size='md' color='pink-5' class='q-mt-md'>
-          <q-icon name='arrow_left'></q-icon>
-          Kembali
-        </q-btn>
-      </router-link>
-      <h1 v-if='article.title.rendered' class='text-h4 text-grey-9 text-bold q-mb-sm' style='line-height: 1.25' v-html='article.title.rendered' />
-      <p v-if='article.date' class='text-subtitle1'>{{ formatDate(article.date, 'YYYY-MM-DD') }}</p>
-    </div>
-    <q-card v-if='article.content.rendered' flat style='border-radius: 30px 30px 0 0'>
-      <q-card-section class='q-px-lg q-py-lg'>
-        <div v-html='article.content.rendered' class='q-mt-sm text-body1 text-blue-grey-8 post-content' id='post-content' />
-      </q-card-section>
-    </q-card>
-  </q-page>
+  <q-layout view="hHh lpR fFf">
+
+    <q-header class="bg-pink-4 text-white">
+      <q-toolbar>
+        <q-btn
+          flat
+          size="md"
+          color="white"
+          v-go-back="'/'"
+          icon="arrow_back"
+        />
+        <q-toolbar-title>
+          <q-avatar>
+          </q-avatar>
+          &nbsp;
+        </q-toolbar-title>
+        <q-btn
+          flat
+          size="md"
+          color="white"
+          icon='bookmark_border' @click='bookmark'
+        />
+        <q-btn
+          flat
+          size="md"
+          color="white"
+          icon='share' @click='share'
+        />
+      </q-toolbar>
+    </q-header>
+
+    <q-page-container>
+      <q-page class='q-pt-md'>
+        <div class='q-mb-lg q-px-lg'>
+          <h1 v-if='article.title.rendered' class='text-h5 text-pink-4 text-bold q-mb-sm' style='line-height: 1.25' v-html='article.title.rendered' />
+          <p v-if='article.date' class='text-subtitle1'>
+            <q-icon name='calendar_today' />
+            {{ formatDate(article.date, 'YYYY-MM-DD') }}
+          </p>
+        </div>
+        <q-card v-if='article.content.rendered' class='' flat style='border-radius: 30px 30px 0 0'>
+          <q-card-section class='q-px-lg q-py-lg'>
+            <div v-html='article.content.rendered' class='q-mt-sm text-body1 post-content' id='post-content' />
+          </q-card-section>
+        </q-card>
+        <q-card v-if='article.content.rendered' flat class='bg-blue-grey-2'>
+          <q-card-section class='q-px-lg q-py-lg'>
+            <p class='text-bold'>Disclaimer</p>
+            <p>
+              Livelymom adalah blog pribadi yang bertujuan untuk membagikan
+              pengalaman perjalanan menjadi seorang ibu.
+            </p>
+            <p>
+               Penulis bukan merupakan dokter, bidan, maupun tenaga medis.
+               Masalah atau gejala yang ada di blog ini mungkin sedang Bunda alami.
+               Tetapi apa yang ada di blog ini belum tentu sesuai dengan kondisi bunda.
+            </p>
+            <p class='q-mb-none'>
+              Hubungi dokter/bidan Bunda untuk mendapatkan penjelasan
+              sesuai dengan kondisi Bunda. Penulis tidak bertanggung jawab
+              atas hal-hal yang terjadi karena Bunda mencoba solusi yang
+              pernah penulis lakukan tanpa mengkonsultasikan maupun
+              pendampingan oleh dokter/bidan.
+            </p>
+          </q-card-section>
+        </q-card>
+      </q-page>
+    </q-page-container>
+
+  </q-layout>
 </template>
 
 <script>
@@ -114,6 +167,25 @@ export default {
       var year = date.getFullYear()
 
       return day + ' ' + monthNames[monthIndex] + ' ' + year
+    },
+    share: function () {
+      let article = this.article
+      let host = window.location.protocol + '//' + window.location.host + '/' + article.id + '/' + article.slug
+      if (navigator.share) {
+        navigator.share({
+          title: article.title.rendered,
+          text: article.title.rendered,
+          url: host
+        })
+          .then(() => {
+            // console.log('Successful share')
+          })
+          .catch((e) => {
+            // console.log('Error sharing', error)
+          })
+      } else {
+        window.open('https://api.whatsapp.com/send?text=' + article.title.rendered + '. \n' + host + '\n')
+      }
     }
   }
 }

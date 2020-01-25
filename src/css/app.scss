@@ -1,4 +1,11 @@
 // app global css in SCSS form
+body {
+  color: $blue-grey-5
+}
+a {
+  text-decoration: none;
+  color: $pink-4;
+}
 h1,
 h2,
 h3,
@@ -55,10 +62,6 @@ h6,
   :blank {
     display: none;
     margin: 0;
-  }
-  a {
-    text-decoration: none;
-    color: $pink-6;
   }
 }
 img {

@@ -1,29 +1,33 @@
 <template>
   <q-page class='q-pa-md'>
-    <h1 class='text-h4 text-center q-mb-sm text-pink-12 text-bold'>Lively Mom</h1>
-    <p class='text-body1 text-center text-blue-grey-10 q-mb-lg'>
+    <h1 class='text-h4 text-pink-4 text-center q-mb-sm text-bold'>Lively Mom</h1>
+    <p class='text-body1 text-center q-mb-lg'>
       Cerita &amp; Tips Kehamilan, Melahirkan, Menyusui, dan Parenting
     </p>
 
-    <q-card v-for='(article, index) in articles' class='q-mb-lg' flat :key='article.id' style='border-radius: 8px'>
-      <q-card-section class='q-pa-lg'>
-        <h1 class='text-h6 q-mt-none q-mb-md line-clamp line-clamp-2'>
-          <router-link :to='article.id + "/" + article.slug' class='text-blue-grey-8 hide-underline' v-html='article.title.rendered' />
-        </h1>
+    <div class='row q-col-gutter-md'>
+      <div v-for='(article, index) in articles' class='col-12 col-sm-6 col-md-4 q-mb-none' :key='article.id'>
+        <q-card class='shadow-3' style='border-radius: 8px'>
+          <q-card-section class='q-pa-lg'>
+            <h1 class='text-h6 q-mt-none q-mb-md line-clamp line-clamp-2'>
+              <router-link :to='article.id + "/" + article.slug' class='hide-underline' v-html='article.title.rendered' />
+            </h1>
 
-        <div class='text-body2 text-blue-grey-8 q-mb-md line-clamp line-clamp-3 post-excerpt' v-html='article.excerpt.rendered' />
+            <div class='text-body2 q-mb-md line-clamp line-clamp-3 post-excerpt' v-html='article.excerpt.rendered' />
 
-        <div class='row items-center justify-between'>
-          <div class='text-subtitle2'>
-            <!-- <span class='text-pink-5'>{{ item.author.name }}</span> - -->
-            <span class='text-blue-grey-4'>{{ formatDate(article.date, 'YYYY-MM-DD') }}</span>
-          </div>
-          <div>
-            <q-btn unelevated round size='sm' color='pink-5' icon='share' @click='share(index)'></q-btn>
-          </div>
-        </div>
-      </q-card-section>
-    </q-card>
+            <div class='row items-center justify-between'>
+              <div class='text-subtitle2'>
+                <!-- <span class='text-pink-5'>{{ item.author.name }}</span> - -->
+                <span class=''>{{ formatDate(article.date, 'YYYY-MM-DD') }}</span>
+              </div>
+              <div>
+                <q-btn unelevated round size='sm' color='pink-4' icon='share' @click='share(index)'></q-btn>
+              </div>
+            </div>
+          </q-card-section>
+        </q-card>
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -101,11 +105,13 @@ export default {
     },
     share: function (index) {
       let article = this.articles[index]
+      let host = window.location.protocol + '//' + window.location.host
+      let url = host + '/' + article.id + '/' + article.slug
       if (navigator.share) {
         navigator.share({
           title: article.title.rendered,
           text: article.title.rendered,
-          url: article.link
+          url: url
         })
           .then(() => {
             // console.log('Successful share')
@@ -114,7 +120,7 @@ export default {
             // console.log('Error sharing', error)
           })
       } else {
-        window.open('https://api.whatsapp.com/send?text=' + article.title.rendered + '. \n' + article.link + '\n')
+        window.open('https://api.whatsapp.com/send?text=' + article.title.rendered + '. \n' + url + '\n')
       }
     }
   }
